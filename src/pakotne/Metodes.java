@@ -60,24 +60,6 @@ public class Metodes {
 			
 	 static void SvaruIevade(int kriterijaSvars[], int maxSvars, int kriteriji[], double atlSvars) {
 				// Norāda katra kritērija svaru
-		 int i =0, sk =0;
-				do {
-					System.out.println("Ievadi "+(i+1)+". kritērija svaru (max: "+maxSvars+")");
-					while(!GalvenaKlase.scan.hasNextInt()) {
-						System.out.println("Ievadi "+(i+1)+". kritērija svaru");
-						GalvenaKlase.scan.next();
-					}
-					kriterijaSvars[i] = GalvenaKlase.scan.nextInt();
-					/* Minimālā KATRA ATLIKUŠĀ kritērija svars ir 5
-					 * kopējai svaru vērtībai ir jābūt 100 (ne mazāk, ne vairāk)
-					*/
-					atlSvars = (maxSvars - kriterijaSvars[i]) / (double)(kriteriji.length - sk);
-				} while(kriterijaSvars[i]>maxSvars || kriterijaSvars[i]<5 || 
-					  (i != kriteriji.length-1 && kriterijaSvars[i] == maxSvars) ||
-					  (i == kriteriji.length-1 && (maxSvars - kriterijaSvars[i])  > 0) 
-					  || atlSvars < 5);
-				maxSvars -= kriterijaSvars[i];
-				sk++;
 				GalvenaKlase.scan.nextLine();
 			}
 	 
