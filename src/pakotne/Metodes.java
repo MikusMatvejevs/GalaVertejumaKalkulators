@@ -58,8 +58,9 @@ public class Metodes {
 				} while(!kriteriji[i].matches("^[\\p{L} ]+$"));
 	 }
 			
-	 static void SvaruIevade(int kriterijaSvars[]) {
+	 static void SvaruIevade(int kriterijaSvars[], int maxSvars, int kriteriji[], double atlSvars) {
 				// Norāda katra kritērija svaru
+		 int i =0, sk =0;
 				do {
 					System.out.println("Ievadi "+(i+1)+". kritērija svaru (max: "+maxSvars+")");
 					while(!GalvenaKlase.scan.hasNextInt()) {

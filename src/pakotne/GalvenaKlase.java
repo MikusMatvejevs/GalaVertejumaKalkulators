@@ -62,7 +62,7 @@ public class GalvenaKlase {
             	if(kriteriji==null) {
             		System.out.println("Vispirms ievadi kritērijus!");
             	}else {
-            		Metodes.SvaruIevade(kriterijaSvars);
+            		Metodes.SvaruIevade(kriterijaSvars, studSk, kriterijaSvars, studSk);
             	}
                 break;
 
