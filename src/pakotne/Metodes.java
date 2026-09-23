@@ -1,10 +1,11 @@
 package pakotne;
 
 import java.text.DecimalFormat;
-
+import java.io.*;
+import java.util.*;
 public class Metodes {
 
-	 static void SkIevade(int studSk) {
+	 static int SkIevade(int studSk) {
 		// Audzēkņu skaita ievade
 			do {
 				System.out.println("Cik studentiem aprēķināsi gala vērtējumu?");
@@ -14,10 +15,12 @@ public class Metodes {
 				}
 				studSk = GalvenaKlase.scan.nextInt();
 			}while(studSk<1);
-			String[] studenti = new String[studSk];
+			
+			GalvenaKlase.scan.nextLine();
+			return studSk;
 	 }
 	 
-	 static void KritIevade(int kritSk, int studSk) {
+	 static int KritIevade(int kritSk, int studSk) {
 	// Vērtēšanas kritēriju skaita ievade
 			do {
 				System.out.println("Kāds būs kritēriju skaits?");
@@ -27,12 +30,11 @@ public class Metodes {
 				}
 				kritSk = GalvenaKlase.scan.nextInt();
 			}while(kritSk<1);
-			String[] kriteriji = new String[kritSk];
-			int[] kriterijaSvars = new int[kritSk];
-			int[][] kriterijaVertejums = new int[studSk][kritSk];
-			double[] semestraVertejums = new double[studSk];
 			
 			GalvenaKlase.scan.nextLine();
+			
+			return kritSk;
+			
 	}
 	 
 	 static void VardIevade(String studenti[]) {
@@ -45,7 +47,7 @@ public class Metodes {
 			}
 	 }
 	 
-	 static void KritDefine(String kriteriji[], int kriterijaSvars[]) {
+	 static void KritIevade(String[] kriteriji) {
 	// Definē kritērijus
 			int maxSvars = 100, sk = 1;
 			double atlSvars;
@@ -54,7 +56,9 @@ public class Metodes {
 					System.out.println("Ievadi "+(i+1)+". kritēriju");
 					kriteriji[i] = GalvenaKlase.scan.nextLine().trim();
 				} while(!kriteriji[i].matches("^[\\p{L} ]+$"));
-				
+	 }
+			
+	 static void SvaruIevade(int kriterijaSvars[]) {
 				// Norāda katra kritērija svaru
 				do {
 					System.out.println("Ievadi "+(i+1)+". kritērija svaru (max: "+maxSvars+")");
@@ -91,11 +95,101 @@ public class Metodes {
 					}while(kriterijaVertejums[i][j]<0 || kriterijaVertejums[i][j]>10);
 				}
 			}
+			GalvenaKlase.scan.nextLine();
+	 }
+	 
+	 static void LabotKriteriju(String [] kriteriji) {
+		 System.out.println("Kritēriji:");
+		 
+		 for(int i=0; i<kriteriji.length; i++) {
+			 System.out.println((i+1) + "-" + kriteriji[i]);
+		 }
+		 int nr;
+		 
+		 do {
+			 System.out.println("Kuru kritēriju vēlies labot?");
+			 
+			 while(!GalvenaKlase.scan.hasNextInt()) {
+				 GalvenaKlase.scan.next();
+				 System.out.println("Ievadi kritērija numuru!");
+			 }
+			 nr = GalvenaKlase.scan.nextInt();
+		 }while(nr<1 || nr>kriteriji.length);
+		 
+		 GalvenaKlase.scan.nextLine();
+		 String jaunais;
+		 
+		 do {
+			 System.out.println("Ievadi jauno kritērija nosaukumu: ");
+			 jaunais = GalvenaKlase.scan.nextLine().trim();
+		 }while(!jaunais.matches("^[\\p{L} ]+$"));
+		 
+		 kriteriji[nr-1] = jaunais;
+		 
+		 System.out.println("Kritērijs salabots!");
+	 }
+	 
+	 static void LabotSvaru (int[] KriterijaSvars) {
+		 System.out.println("Mainot svarus tie ir jāievada no jauna, lai kopējais svars paliktu 100%");
+		 SvaruIevade(kriterijaSvars);
+	 }
+	 
+	 static void LabotVertejumu(String[]studenti, String[] kriteriji, int[][]kriterijaVertejums) {
+		 System.out.println("Studenti:");for (int i=0; i<studenti.length; i++) {
+			 System.out.println((i+1) + "-" + studenti[i]);
+		 }
+		 
+		 int studentaNr;
+		 
+		 do {
+			 System.out.println("Izvēlies studentu:");
+			 while(!GalvenaKlase.scan.hasNextInt()) {
+				 GalvenaKlase.scan.next();
+				 System.out.println("Ievadi studenta numuru!");
+			 }
+			 
+			 studentaNr=GalvenaKlase.scan.nextInt();
+		 }while(studentaNr<1 || studentaNr>studenti.length);
+		 
+		 System.out.println("Kritēriji:");
+		 for(int i=0; i<kriteriji.length; i++) {
+			 System.out.println((i+1) + "-" + kriteriji[i]);
+		 }
+		 
+		 int kriterijaNr;
+		 
+		 do {
+			 System.out.println("Izvēlies kritēriju:");
+			 
+			 while(!GalvenaKlase.scan.hasNextInt()) {
+				 GalvenaKlase.scan.next();
+				 System.out.println("Ievadi kritērija numuru!");
+			 }
+			 
+			 kriterijaNr = GalvenaKlase.scan.nextInt();
+		 }while(kriterijaNr<1 || kriterijaNr>kriteriji.length);
+		 
+		 int jaunaisVertejums;
+		 
+		 do {
+			 System.out.println("Ievadi jauno vērtējumu (0-10)");
+			 while(!GalvenaKlase.scan.hasNextInt()) {
+				 GalvenaKlase.scan.next();
+				 System.out.println("Ievadi skaitli no 0 līdz 10!");
+			 }
+			 
+			 jaunaisVertejums=GalvenaKlase.scan.nextInt();
+		 }while(jaunaisVertejums<0 || jaunaisVertejums>10);
+		 GalvenaKlase.scan.nextLine();
+		 
+		 kriterijaVertejums[studentaNr-1][kriterijaNr-1]=jaunaisVertejums;
+		 
+		 System.out.println("Vērtējums izlabots!");
 	 }
 	 
 	 static void GalaVert (int semestraVertejums[], String studenti[], String kriteriji[], int kriterijaSvars[], int kriterijaVertejums[][]) {
 	// Gala vērtējuma aprēķināšana
-			double rezultats;
+			double rezultats = 0;
 			for(int i=0; i<studenti.length; i++) {
 				rezultats=0;
 				for(int j=0; j<kriteriji.length; j++) {
