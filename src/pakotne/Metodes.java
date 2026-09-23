@@ -20,7 +20,7 @@ public class Metodes {
 			return studSk;
 	 }
 	 
-	 static int KritIevade(int kritSk, int studSk) {
+	 static int KritSkIevade(int kritSk, int studSk) {
 	// Vērtēšanas kritēriju skaita ievade
 			do {
 				System.out.println("Kāds būs kritēriju skaits?");
@@ -79,7 +79,6 @@ public class Metodes {
 				sk++;
 				GalvenaKlase.scan.nextLine();
 			}
-	 }
 	 
 	 static void VertKrit (int kriterijaVertejums[][], String studenti[], String kriteriji[]) {
 	// Norāda vērtējumu kādu ieguvis katrs audzēknis par katru kritēriju
@@ -131,7 +130,7 @@ public class Metodes {
 	 
 	 static void LabotSvaru (int[] KriterijaSvars) {
 		 System.out.println("Mainot svarus tie ir jāievada no jauna, lai kopējais svars paliktu 100%");
-		 SvaruIevade(kriterijaSvars);
+		 SvaruIevade(KriterijaSvars);
 	 }
 	 
 	 static void LabotVertejumu(String[]studenti, String[] kriteriji, int[][]kriterijaVertejums) {
@@ -187,7 +186,7 @@ public class Metodes {
 		 System.out.println("Vērtējums izlabots!");
 	 }
 	 
-	 static void GalaVert (int semestraVertejums[], String studenti[], String kriteriji[], int kriterijaSvars[], int kriterijaVertejums[][]) {
+	 static void GalaVert (double[] semestraVertejums, String studenti[], String kriteriji[], int kriterijaSvars[], int kriterijaVertejums[][]) {
 	// Gala vērtējuma aprēķināšana
 			double rezultats = 0;
 			for(int i=0; i<studenti.length; i++) {
@@ -199,7 +198,7 @@ public class Metodes {
 			}
 	 }
 	 
-	 static void VertIzvad (int studenti[], String kriteriji[], int kriterijaVertejums[][], int semestraVertejums[], int kriterijaSvars[]) {
+	 static void VertIzvad (String[] studenti, String kriteriji[], int[][] kriterijaVertejums, double[] semestraVertejums, int[] kriterijaSvars) {
 	// Gala vērtējumu izvadīšana
 		 DecimalFormat df = new DecimalFormat("0.#");
 			for(int i=0; i<studenti.length; i++) {	
@@ -210,4 +209,52 @@ public class Metodes {
 						+ "\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
 			}
 	 }
+	 
+	 static void SaglabatFaila(String[] studenti, String[] kriteriji, int[] kriterijaSvars,
+                              int[][] kriterijaVertejums, double[] semestraVertejums) {
+
+        DecimalFormat df = new DecimalFormat("0.#");
+
+        try {
+            FileWriter writer = new FileWriter("rezultati.txt");
+
+            for (int i = 0; i < studenti.length; i++) {
+                writer.write("Students: " + studenti[i] + "\n");
+
+                for (int j = 0; j < kriteriji.length; j++) {
+                    writer.write("Kritērijs: " + kriteriji[j]
+                            + " | Vērtējums: " + kriterijaVertejums[i][j]
+                            + " | Svars: " + kriterijaSvars[j] + "%\n");
+                }
+
+                writer.write("Semestra vērtējums: " + df.format(semestraVertejums[i]) + "\n");
+                writer.write("----------------------------------------\n");
+            }
+
+            writer.close();
+            System.out.println("Rezultāti saglabāti failā rezultati.txt!");
+
+        } catch (IOException e) {
+            System.out.println("Kļūda saglabājot failu: " + e.getMessage());
+        }
+    }
+
+    static void NolasitFailu() {
+        try {
+            File fails = new File("rezultati.txt");
+            Scanner failaScan = new Scanner(fails);
+
+            System.out.println("\n========== FAILA SATURS ==========");
+
+            while (failaScan.hasNextLine()) {
+                System.out.println(failaScan.nextLine());
+            }
+
+            System.out.println("==================================");
+            failaScan.close();
+
+        } catch (IOException e) {
+            System.out.println("Neizdevās nolasīt failu. Iespējams, rezultāti vēl nav saglabāti.");
+        }
+    }
 }
